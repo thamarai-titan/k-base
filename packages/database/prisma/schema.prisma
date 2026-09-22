@@ -1,0 +1,50 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum EntryType {
+  COMMAND
+  NOTE
+  SNIPPET
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  entries   Entry[]
+
+  @@map("categories")
+}
+
+model Entry {
+  id          String     @id @default(cuid())
+  title       String
+  type        EntryType  @default(NOTE)
+  content     String     @db.Text
+  description String?    @db.Text
+  example     String?    @db.Text
+  categoryId  String
+  category    Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  tags        Tag[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([categoryId])
+  @@index([type])
+  @@map("entries")
+}
+
+model Tag {
+  id      String  @id @default(cuid())
+  name    String  @unique
+  entries Entry[]
+
+  @@map("tags")
+}
