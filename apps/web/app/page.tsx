@@ -7,6 +7,7 @@ import { FilterBar } from "../components/FilterBar";
 import { EntryCard } from "../components/EntryCard";
 import { EntryModal } from "../components/EntryModal";
 import { CategoryModal } from "../components/CategoryModal";
+import { Button } from "@/components/ui/button";
 import { api, type Category, type Entry, type Tag, type EntryType, type CreateEntryPayload } from "../lib/api";
 import { AlertCircle, Plus, BookOpen } from "lucide-react";
 
@@ -201,25 +202,12 @@ export default function Home() {
 
         <main className="content-area">
           {apiError && (
-            <div
-              style={{
-                marginBottom: "20px",
-                padding: "16px 20px",
-                borderRadius: "var(--radius-md)",
-                backgroundColor: "rgba(245, 158, 11, 0.12)",
-                border: "1px solid rgba(245, 158, 11, 0.3)",
-                color: "#fbbf24",
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                fontSize: "0.9rem",
-              }}
-            >
-              <AlertCircle size={20} style={{ flexShrink: 0 }} />
+            <div className="mb-4 p-3.5 rounded-md bg-[#1c1810] border border-amber-900/40 text-amber-300 flex items-center gap-2.5 text-xs">
+              <AlertCircle size={16} className="shrink-0 text-amber-400" />
               <div>
-                <strong>Backend API notice:</strong> Ensure your Express backend server is running on{" "}
-                <code>http://localhost:5001</code>.
-                <div style={{ fontSize: "0.8rem", color: "#fde68a", marginTop: "2px" }}>
+                <strong className="font-semibold">API Connection Notice:</strong> Ensure your backend is running on{" "}
+                <code className="text-amber-200 bg-black/40 px-1 py-0.5 rounded">http://localhost:5001</code>.
+                <div className="text-[11px] text-amber-400/70 mt-0.5">
                   Details: {apiError}
                 </div>
               </div>
@@ -227,21 +215,26 @@ export default function Home() {
           )}
 
           {isLoading ? (
-            <div style={{ textAlign: "center", padding: "60px 20px", color: "var(--text-muted)" }}>
+            <div className="text-center py-20 text-muted-foreground text-xs font-medium">
               Loading knowledge entries...
             </div>
           ) : entries.length === 0 ? (
             <div className="empty-state">
-              <BookOpen size={42} style={{ color: "var(--text-muted)" }} />
+              <BookOpen size={36} className="text-muted-foreground opacity-50 mb-2" />
               <div className="empty-state-title">No entries found</div>
               <p className="empty-state-desc">
                 {selectedCategory || selectedTag || searchQuery || selectedType
                   ? "No knowledge entries match your active filters or search query."
                   : "Your personal knowledge base is empty. Start adding commands, notes, and code snippets!"}
               </p>
-              <button className="btn btn-primary" onClick={handleOpenNewEntry}>
-                <Plus size={16} /> Create First Entry
-              </button>
+              <Button
+                variant="default"
+                size="default"
+                onClick={handleOpenNewEntry}
+                className="gap-1.5 font-semibold"
+              >
+                <Plus size={14} /> Create First Entry
+              </Button>
             </div>
           ) : (
             <div className="entries-grid">

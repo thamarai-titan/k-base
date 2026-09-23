@@ -13,7 +13,8 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "k-base | Personal Knowledge Engine",
-  description: "Personal knowledge base for commands, notes, and code snippets across any technical domain.",
+  description:
+    "Personal knowledge base for commands, notes, and code snippets across any technical domain.",
 };
 
 export default function RootLayout({

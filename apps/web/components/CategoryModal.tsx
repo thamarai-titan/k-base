@@ -1,7 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, FolderPlus } from "lucide-react";
+import { FolderPlus } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface CategoryModalProps {
   isOpen: boolean;
@@ -14,8 +24,6 @@ export function CategoryModal({ isOpen, onClose, onSubmit }: CategoryModalProps)
   const [slug, setSlug] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  if (!isOpen) return null;
 
   const handleNameChange = (val: string) => {
     setName(val);
@@ -54,63 +62,78 @@ export function CategoryModal({ isOpen, onClose, onSubmit }: CategoryModalProps)
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-dialog" style={{ maxWidth: "440px" }} onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2 className="modal-title" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <FolderPlus size={18} /> New Category
-          </h2>
-          <button className="icon-btn" onClick={onClose}>
-            <X size={18} />
-          </button>
-        </div>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="max-w-md bg-[#0f121a] border-border">
+        <DialogHeader>
+          <div className="flex items-center gap-1.5 text-muted-foreground font-mono text-xs uppercase tracking-wider">
+            <FolderPlus size={13} />
+            <span>Taxonomy</span>
+          </div>
+          <DialogTitle className="text-base font-bold text-foreground">
+            Create Category
+          </DialogTitle>
+          <DialogDescription className="text-xs text-muted-foreground">
+            Group knowledge entries by domain, tech stack, or workflow.
+          </DialogDescription>
+        </DialogHeader>
 
-        <form onSubmit={handleSubmit}>
-          <div className="modal-body">
-            {error && (
-              <div style={{ padding: "10px 14px", borderRadius: "8px", background: "rgba(239, 68, 68, 0.15)", border: "1px solid rgba(239, 68, 68, 0.3)", color: "#f87171", fontSize: "0.85rem" }}>
-                {error}
-              </div>
-            )}
-
-            <div className="form-group">
-              <label className="form-label">Category Name *</label>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="e.g. Linux, Docker, System Design..."
-                value={name}
-                onChange={(e) => handleNameChange(e.target.value)}
-                required
-                autoFocus
-              />
+        <form onSubmit={handleSubmit} className="space-y-3 pt-2">
+          {error && (
+            <div className="p-2.5 rounded bg-red-950/40 border border-red-800/40 text-red-300 text-xs font-medium">
+              {error}
             </div>
+          )}
 
-            <div className="form-group">
-              <label className="form-label">Slug (URL friendly)</label>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="e.g. linux, docker, system-design"
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
-              />
-              <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
-                Auto-generated from name if left untouched
-              </span>
-            </div>
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-foreground">
+              Category Name *
+            </label>
+            <Input
+              type="text"
+              placeholder="e.g. Kubernetes, AWS, PostgreSQL, CI/CD"
+              value={name}
+              onChange={(e) => handleNameChange(e.target.value)}
+              required
+              autoFocus
+              className="bg-[#141722]"
+            />
           </div>
 
-          <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" onClick={onClose} disabled={isSubmitting}>
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-foreground">
+              Slug (URL-friendly identifier)
+            </label>
+            <Input
+              type="text"
+              placeholder="e.g. kubernetes, aws, postgresql"
+              value={slug}
+              onChange={(e) => setSlug(e.target.value)}
+              className="bg-[#141722] font-mono text-xs"
+            />
+            <p className="text-[11px] text-muted-foreground">
+              Auto-generated from name if left untouched
+            </p>
+          </div>
+
+          <DialogFooter className="pt-3 border-t border-border gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              disabled={isSubmitting}
+            >
               Cancel
-            </button>
-            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+            </Button>
+            <Button
+              type="submit"
+              variant="default"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Creating..." : "Create Category"}
-            </button>
-          </div>
+            </Button>
+          </DialogFooter>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }

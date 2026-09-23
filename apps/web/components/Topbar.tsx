@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Search, Plus, FolderPlus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface TopbarProps {
   searchQuery: string;
@@ -19,34 +20,36 @@ export function Topbar({
   return (
     <header className="topbar">
       <div className="search-box">
-        <Search size={18} className="search-icon" />
+        <Search size={15} className="search-icon" />
         <input
           type="text"
           className="search-input"
-          placeholder="Search commands, notes, snippets, keywords..."
+          placeholder="Search commands, notes, snippets, tags..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
         />
       </div>
 
       <div className="topbar-actions">
-        <button
-          className="btn btn-secondary"
+        <Button
+          variant="outline"
           onClick={onOpenNewCategory}
           title="Create a new category"
+          className="gap-2 text-xs"
         >
-          <FolderPlus size={16} />
+          <FolderPlus className="h-3.5 w-3.5 text-muted-foreground" />
           <span>New Category</span>
-        </button>
+        </Button>
 
-        <button
-          className="btn btn-primary"
+        <Button
+          variant="default"
           onClick={onOpenNewEntry}
           title="Add a new command, note or snippet"
+          className="gap-1.5 text-xs font-semibold"
         >
-          <Plus size={16} />
+          <Plus className="h-3.5 w-3.5" />
           <span>New Entry</span>
-        </button>
+        </Button>
       </div>
     </header>
   );

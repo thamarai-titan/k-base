@@ -1,8 +1,10 @@
 "use client";
 
 import React from "react";
-import { Folder, Hash, Plus, Layers, Tag as TagIcon, Trash2 } from "lucide-react";
-import type { Category, Tag } from "../lib/api";
+import { Folder, Hash, Plus, Layers, Tag as TagIcon, Trash2, Terminal } from "lucide-react";
+import type { Category, Tag } from "@/lib/api";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 interface SidebarProps {
   categories: Category[];
@@ -29,21 +31,25 @@ export function Sidebar({
 }: SidebarProps) {
   return (
     <aside className="sidebar">
+      {/* Sidebar Header */}
       <div className="sidebar-header">
         <div className="brand">
-          <div className="brand-icon">K</div>
+          <div className="brand-icon">
+            <Terminal size={15} />
+          </div>
           <div>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div className="flex items-center gap-1.5">
               <span className="brand-title">k-base</span>
               <span className="brand-badge">Engine</span>
             </div>
-            <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "2px" }}>
-              Personal Knowledge Hub
+            <div className="text-[11px] text-muted-foreground mt-0.5 font-mono">
+              Knowledge Hub
             </div>
           </div>
         </div>
       </div>
 
+      {/* Navigation Section */}
       <div className="sidebar-section">
         <div className="sidebar-section-title">Navigation</div>
         <ul className="nav-list">
@@ -54,24 +60,28 @@ export function Sidebar({
               onSelectTag("");
             }}
           >
-            <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <Layers size={16} /> All Knowledge
+            <span className="flex items-center gap-2">
+              <Layers size={14} className="text-muted-foreground" />
+              <span>All Knowledge</span>
             </span>
             <span className="nav-count">{totalEntriesCount}</span>
           </li>
         </ul>
       </div>
 
-      <div className="sidebar-section">
+      {/* Categories Section */}
+      <div className="sidebar-section flex-1 overflow-y-auto">
         <div className="sidebar-section-title">
           <span>Categories</span>
-          <button
-            className="sidebar-action-btn"
+          <Button
+            variant="ghost"
+            size="iconSm"
+            className="h-5 w-5 text-muted-foreground hover:text-foreground"
             title="Create Category"
             onClick={onOpenNewCategory}
           >
-            <Plus size={15} />
-          </button>
+            <Plus size={13} />
+          </Button>
         </div>
 
         <ul className="nav-list">
@@ -80,59 +90,69 @@ export function Sidebar({
             return (
               <li
                 key={cat.id}
-                className={`nav-item ${isActive ? "active" : ""}`}
+                className={`nav-item group ${isActive ? "active" : ""}`}
                 onClick={() => onSelectCategory(cat.slug)}
               >
-                <span style={{ display: "flex", alignItems: "center", gap: "8px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                  <Folder size={15} style={{ color: isActive ? "#60a5fa" : "var(--text-muted)", flexShrink: 0 }} />
-                  <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{cat.name}</span>
+                <span className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
+                  <Folder
+                    size={13}
+                    className={`shrink-0 transition-colors ${
+                      isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
+                    }`}
+                  />
+                  <span className="overflow-hidden text-ellipsis">{cat.name}</span>
                 </span>
-                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <div className="flex items-center gap-1.5">
                   <span className="nav-count">{cat._count?.entries ?? 0}</span>
-                  <button
-                    className="sidebar-action-btn"
+                  <Button
+                    variant="ghost"
+                    size="iconSm"
+                    className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
                     title={`Delete ${cat.name}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       onDeleteCategory(cat.id, cat.name);
                     }}
                   >
-                    <Trash2 size={13} />
-                  </button>
+                    <Trash2 size={11} />
+                  </Button>
                 </div>
               </li>
             );
           })}
           {categories.length === 0 && (
-            <div style={{ padding: "8px 12px", fontSize: "0.8rem", color: "var(--text-muted)" }}>
+            <div className="px-2 py-1.5 text-xs text-muted-foreground">
               No categories yet
             </div>
           )}
         </ul>
       </div>
 
-      <div className="sidebar-section" style={{ marginTop: "auto", paddingBottom: "24px" }}>
+      {/* Popular Tags Section */}
+      <div className="sidebar-section mt-auto border-t border-border/50 pb-5 pt-3">
         <div className="sidebar-section-title">
-          <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <TagIcon size={14} /> Popular Tags
+          <span className="flex items-center gap-1.5">
+            <TagIcon size={12} />
+            <span>Popular Tags</span>
           </span>
         </div>
         <div className="tags-cloud">
           {tags.map((tag) => {
             const isTagActive = selectedTag.toLowerCase() === tag.name.toLowerCase();
             return (
-              <button
+              <Badge
                 key={tag.id}
-                className={`tag-chip ${isTagActive ? "active" : ""}`}
+                variant={isTagActive ? "default" : "tag"}
                 onClick={() => onSelectTag(isTagActive ? "" : tag.name)}
+                className="text-[10px] py-0.5 px-2 transition-colors"
               >
-                <Hash size={11} style={{ display: "inline", verticalAlign: "middle", marginRight: "2px" }} />
+                <Hash size={9} className="inline mr-0.5 opacity-70" />
                 {tag.name}
-              </button>
+              </Badge>
             );
           })}
           {tags.length === 0 && (
-            <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", padding: "4px" }}>
+            <div className="text-[11px] text-muted-foreground px-1">
               Tags appear here as you create entries
             </div>
           )}
