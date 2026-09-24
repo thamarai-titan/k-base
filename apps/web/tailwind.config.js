@@ -60,6 +60,8 @@ export default {
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
+        reading: ["var(--font-reading)", "var(--font-sans)", "system-ui", "sans-serif"],
+        code: ["var(--font-code)", "var(--font-mono)", "monospace"],
       },
       keyframes: {
         "accordion-down": {

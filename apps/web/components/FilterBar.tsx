@@ -140,7 +140,7 @@ export function FilterBar({
         )}
       </div>
 
-      <div className="text-xs text-muted-foreground font-mono">
+      <div className="text-xs text-muted-foreground font-mono tabular-nums">
         <span className="font-semibold text-foreground">{entriesCount}</span>{" "}
         {entriesCount === 1 ? "entry" : "entries"}
       </div>

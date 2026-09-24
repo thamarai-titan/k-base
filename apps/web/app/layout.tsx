@@ -23,8 +23,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var font = localStorage.getItem('kbase_font_pair') || 'inter';
+                  var density = localStorage.getItem('kbase_reading_density') || 'comfortable';
+                  document.documentElement.setAttribute('data-font', font);
+                  document.documentElement.setAttribute('data-reading-mode', density);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>
     </html>

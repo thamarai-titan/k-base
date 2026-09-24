@@ -225,7 +225,11 @@ export function EntryModal({
               </span>
             </label>
             <Textarea
-              className="min-h-[110px] bg-[#141722] font-mono text-xs"
+              className={`min-h-[120px] bg-[#141722] leading-relaxed transition-all ${
+                type === "NOTE"
+                  ? "note-reading-surface font-reading text-sm"
+                  : "code-visualization-surface font-code text-xs"
+              }`}
               placeholder={
                 type === "COMMAND"
                   ? "docker system prune -a --volumes -f"

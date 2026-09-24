@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { HighlightedText } from "./HighlightedText";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +24,7 @@ import {
 
 interface EntryCardProps {
   entry: Entry;
+  searchQuery?: string;
   onEdit: (entry: Entry) => void;
   onDelete: (id: string, title: string) => void;
   onSelectTag: (tagName: string) => void;
@@ -31,12 +33,14 @@ interface EntryCardProps {
 
 export function EntryCard({
   entry,
+  searchQuery,
   onEdit,
   onDelete,
   onSelectTag,
   onNotify,
 }: EntryCardProps) {
   const [copied, setCopied] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const handleCopy = async () => {
     try {
@@ -49,25 +53,27 @@ export function EntryCard({
     }
   };
 
+  const isLongContent = entry.content.length > 220 || entry.content.split("\n").length > 5;
+
   const renderTypeBadge = () => {
     switch (entry.type) {
       case "COMMAND":
         return (
-          <Badge variant="command" className="gap-1 font-mono text-[10px] font-semibold uppercase">
+          <Badge variant="command" className="gap-1 font-mono text-[10px] font-semibold uppercase tracking-wider">
             <Terminal size={11} />
             Command
           </Badge>
         );
       case "SNIPPET":
         return (
-          <Badge variant="snippet" className="gap-1 font-mono text-[10px] font-semibold uppercase">
+          <Badge variant="snippet" className="gap-1 font-mono text-[10px] font-semibold uppercase tracking-wider">
             <Code size={11} />
             Snippet
           </Badge>
         );
       case "NOTE":
         return (
-          <Badge variant="note" className="gap-1 font-mono text-[10px] font-semibold uppercase">
+          <Badge variant="note" className="gap-1 font-mono text-[10px] font-semibold uppercase tracking-wider">
             <BookOpen size={11} />
             Note
           </Badge>
@@ -76,7 +82,7 @@ export function EntryCard({
   };
 
   return (
-    <Card className="flex flex-col justify-between border-border bg-[#10131b] hover:border-[#2d354b] transition-colors duration-150 group">
+    <Card id={`entry-${entry.id}`} className="flex flex-col justify-between border-border bg-[#10131b] hover:border-[#2d354b] transition-all duration-150 group">
       <div>
         <CardHeader className="p-4 pb-2.5">
           <div className="flex items-center justify-between gap-2 mb-2">
@@ -124,42 +130,62 @@ export function EntryCard({
             </DropdownMenu>
           </div>
 
-          <CardTitle className="text-sm font-semibold leading-snug tracking-tight text-[#f5f6f8] group-hover:text-white transition-colors">
-            {entry.title}
+          <CardTitle className="text-[14.5px] font-semibold leading-snug tracking-tight text-[#f5f6f8] group-hover:text-white transition-colors">
+            <HighlightedText text={entry.title} query={searchQuery} />
           </CardTitle>
 
           {entry.description && (
             <CardDescription className="text-xs text-muted-foreground line-clamp-2 mt-1 leading-relaxed">
-              {entry.description}
+              <HighlightedText text={entry.description} query={searchQuery} />
             </CardDescription>
           )}
         </CardHeader>
 
         <CardContent className="p-4 pt-1 space-y-2.5">
           {entry.type === "NOTE" ? (
-            <div className="rounded border border-border/80 bg-[#0c0e15] p-3 text-xs leading-relaxed text-slate-300 whitespace-pre-wrap break-words max-h-48 overflow-y-auto font-sans">
-              {entry.content}
+            <div className="relative rounded border border-border/80 bg-[#0c0f18] p-3 text-slate-200">
+              <div
+                className={`note-reading-surface whitespace-pre-wrap break-words transition-all ${
+                  !isExpanded && isLongContent ? "line-clamp-6" : ""
+                }`}
+              >
+                <HighlightedText text={entry.content} query={searchQuery} />
+              </div>
+
+              {isLongContent && (
+                <div className="mt-2 pt-2 border-t border-border/50 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="text-[11px] text-muted-foreground hover:text-foreground font-medium transition-colors"
+                  >
+                    {isExpanded ? "Collapse Reading View ↑" : "Expand Full Note ↓"}
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
-            <div className="rounded border border-border/80 bg-[#080a0f] overflow-hidden">
-              <div className="flex items-center justify-between border-b border-border/80 bg-[#12151e] px-3 py-1.5 text-[11px] font-mono text-muted-foreground">
+            <div className="rounded border border-border/80 bg-[#07090e] overflow-hidden shadow-inner">
+              <div className="flex items-center justify-between border-b border-border/70 bg-[#10131c] px-3 py-1.5 text-[11px] font-mono text-muted-foreground">
                 <span className="flex items-center gap-1.5 text-slate-400">
                   {entry.type === "COMMAND" ? (
                     <>
-                      <span className="text-emerald-400 font-bold">$</span> bash
+                      <span className="text-emerald-400 font-bold">$</span>
+                      <span className="text-slate-300 font-medium">bash</span>
                     </>
                   ) : (
                     <>
-                      <span className="text-blue-400 font-bold">&lt;/&gt;</span> code
+                      <span className="text-blue-400 font-bold">&lt;/&gt;</span>
+                      <span className="text-slate-300 font-medium">code</span>
                     </>
                   )}
                 </span>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className={`h-5 px-1.5 text-[11px] gap-1 transition-all ${
+                  className={`h-5 px-2 text-[11px] gap-1 transition-all ${
                     copied
-                      ? "text-emerald-400 font-medium"
+                      ? "text-emerald-400 font-medium bg-emerald-950/30"
                       : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                   }`}
                   onClick={handleCopy}
@@ -168,18 +194,22 @@ export function EntryCard({
                   <span>{copied ? "Copied" : "Copy"}</span>
                 </Button>
               </div>
-              <pre className="p-3 text-xs font-mono text-slate-200 overflow-x-auto whitespace-pre-wrap break-all leading-relaxed">
-                <code>{entry.content}</code>
+              <pre className="p-3 text-[12px] text-slate-200 overflow-x-auto whitespace-pre-wrap break-all code-visualization-surface">
+                <code>
+                  <HighlightedText text={entry.content} query={searchQuery} />
+                </code>
               </pre>
             </div>
           )}
 
           {entry.example && (
-            <div className="rounded border-l-2 border-slate-600 bg-[#12151f] p-2 text-xs font-mono text-slate-300">
+            <div className="rounded border-l-2 border-slate-600 bg-[#111420] p-2 text-xs code-visualization-surface text-slate-300">
               <span className="block text-[10px] font-sans font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">
                 Example Usage
               </span>
-              <span>{entry.example}</span>
+              <span>
+                <HighlightedText text={entry.example} query={searchQuery} />
+              </span>
             </div>
           )}
         </CardContent>
@@ -194,7 +224,7 @@ export function EntryCard({
               onClick={() => onSelectTag(tag.name)}
               className="text-[10px] py-0 px-1.5 transition-colors hover:border-[#353d54] hover:text-foreground"
             >
-              #{tag.name}
+              #<HighlightedText text={tag.name} query={searchQuery} />
             </Badge>
           ))}
         </CardFooter>

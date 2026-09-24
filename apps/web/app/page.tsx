@@ -185,6 +185,10 @@ export default function Home() {
           onSearchChange={setSearchQuery}
           onOpenNewEntry={handleOpenNewEntry}
           onOpenNewCategory={() => setIsCategoryModalOpen(true)}
+          selectedType={selectedType}
+          onSelectType={(t) => startTransition(() => setSelectedType(t))}
+          entries={entries}
+          onNotify={showToast}
         />
 
         <FilterBar
@@ -242,6 +246,7 @@ export default function Home() {
                 <EntryCard
                   key={entry.id}
                   entry={entry}
+                  searchQuery={searchQuery}
                   onEdit={handleEditEntry}
                   onDelete={handleDeleteEntry}
                   onSelectTag={(t) => setSelectedTag(t)}

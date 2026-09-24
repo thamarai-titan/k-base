@@ -3,46 +3,82 @@ import type { CreateEntryInput, UpdateEntryInput, EntryQueryInput } from "./entr
 
 export class EntriesService {
   async findAll(query: EntryQueryInput) {
-    const where: Prisma.EntryWhereInput = {};
+    const andClauses: Prisma.EntryWhereInput[] = [];
 
-    // Filter by type
-    if (query.type) {
-      where.type = query.type;
+    let targetType = query.type;
+    let searchStr = query.search ? query.search.trim() : "";
+
+    // 1. Parse type intents from search string (e.g. "cmd:docker", "docker cmds", "cmds docker", "docker commands")
+    if (searchStr) {
+      const cmdPrefixMatch = searchStr.match(/^(?:cmd|command|cmds):\s*(.*)$/i);
+      const notePrefixMatch = searchStr.match(/^(?:note|notes):\s*(.*)$/i);
+      const snippetPrefixMatch = searchStr.match(/^(?:snippet|snippets|code):\s*(.*)$/i);
+
+      if (cmdPrefixMatch) {
+        targetType = "COMMAND";
+        searchStr = cmdPrefixMatch[1]?.trim() || "";
+      } else if (notePrefixMatch) {
+        targetType = "NOTE";
+        searchStr = notePrefixMatch[1]?.trim() || "";
+      } else if (snippetPrefixMatch) {
+        targetType = "SNIPPET";
+        searchStr = snippetPrefixMatch[1]?.trim() || "";
+      } else if (!targetType) {
+        // Check for words like "cmd", "cmds", "command", "commands"
+        const words = searchStr.split(/\s+/);
+        const hasCmdWord = words.some((w) => /^(cmds?|commands?)$/i.test(w));
+        if (hasCmdWord && words.length > 1) {
+          targetType = "COMMAND";
+          searchStr = words.filter((w) => !/^(cmds?|commands?)$/i.test(w)).join(" ");
+        }
+      }
     }
 
-    // Filter by Category (by ID or Slug)
+    // Filter by type
+    if (targetType) {
+      andClauses.push({ type: targetType });
+    }
+
+    // Filter by Category (by ID or Slug or Name)
     if (query.category) {
-      where.OR = [
-        { categoryId: query.category },
-        { category: { slug: query.category } },
-        { category: { name: { equals: query.category, mode: "insensitive" } } },
-      ];
+      andClauses.push({
+        OR: [
+          { categoryId: query.category },
+          { category: { slug: query.category } },
+          { category: { name: { equals: query.category, mode: "insensitive" } } },
+        ],
+      });
     }
 
     // Filter by Tag
     if (query.tag) {
-      where.tags = {
-        some: {
-          name: { equals: query.tag, mode: "insensitive" },
+      andClauses.push({
+        tags: {
+          some: {
+            name: { equals: query.tag, mode: "insensitive" },
+          },
         },
-      };
+      });
     }
 
-    // Search query across title, content, description
-    if (query.search && query.search.trim() !== "") {
-      const searchTerm = query.search.trim();
-      const searchConditions: Prisma.EntryWhereInput[] = [
-        { title: { contains: searchTerm, mode: "insensitive" } },
-        { content: { contains: searchTerm, mode: "insensitive" } },
-        { description: { contains: searchTerm, mode: "insensitive" } },
-      ];
-
-      if (where.OR) {
-        where.AND = [{ OR: searchConditions }];
-      } else {
-        where.OR = searchConditions;
+    // Search query across title, command/content, description, example, category, and tags
+    if (searchStr) {
+      const terms = searchStr.split(/\s+/).filter(Boolean);
+      for (const term of terms) {
+        andClauses.push({
+          OR: [
+            { title: { contains: term, mode: "insensitive" } },
+            { content: { contains: term, mode: "insensitive" } },
+            { description: { contains: term, mode: "insensitive" } },
+            { example: { contains: term, mode: "insensitive" } },
+            { category: { name: { contains: term, mode: "insensitive" } } },
+            { tags: { some: { name: { contains: term, mode: "insensitive" } } } },
+          ],
+        });
       }
     }
+
+    const where: Prisma.EntryWhereInput = andClauses.length > 0 ? { AND: andClauses } : {};
 
     return prisma.entry.findMany({
       where,

@@ -84,6 +84,62 @@ async function main() {
 
   await prisma.entry.create({
     data: {
+      title: "Run Container with Port Mapping and Volume Mount",
+      type: EntryType.COMMAND,
+      content: "docker run -d -p 8080:80 -v $(pwd):/app --name my-web nginx:alpine",
+      description: "Spins up a detached container mapping host port 8080 to container port 80 with current directory mounted.",
+      example: "docker run -d -p 3000:3000 my-node-app",
+      categoryId: dockerCategory.id,
+      tags: {
+        create: [{ name: "containers" }, { name: "ports" }, { name: "run" }],
+      },
+    },
+  });
+
+  await prisma.entry.create({
+    data: {
+      title: "Interactive Shell in Running Container",
+      type: EntryType.COMMAND,
+      content: "docker exec -it <container_name_or_id> /bin/sh",
+      description: "Opens an interactive TTY shell session inside an active running Docker container.",
+      example: "docker exec -it my-web /bin/bash",
+      categoryId: dockerCategory.id,
+      tags: {
+        create: [{ name: "exec" }, { name: "shell" }, { name: "debug" }],
+      },
+    },
+  });
+
+  await prisma.entry.create({
+    data: {
+      title: "List All Containers with Custom Formatting",
+      type: EntryType.COMMAND,
+      content: "docker ps -a --format \"table {{.ID}}\\t{{.Names}}\\t{{.Status}}\\t{{.Ports}}\"",
+      description: "Lists all running and stopped containers in a clean formatted table layout.",
+      example: "docker ps --filter status=running",
+      categoryId: dockerCategory.id,
+      tags: {
+        create: [{ name: "ps" }, { name: "status" }],
+      },
+    },
+  });
+
+  await prisma.entry.create({
+    data: {
+      title: "Docker Compose Build and Start Detached",
+      type: EntryType.COMMAND,
+      content: "docker compose up -d --build",
+      description: "Rebuilds images if needed and starts all services in the background detached mode.",
+      example: "docker compose down -v",
+      categoryId: dockerCategory.id,
+      tags: {
+        create: [{ name: "compose" }, { name: "deploy" }],
+      },
+    },
+  });
+
+  await prisma.entry.create({
+    data: {
       title: "CORS (Cross-Origin Resource Sharing) Fundamentals",
       type: EntryType.NOTE,
       content: "CORS is a browser security mechanism that restricts HTTP requests initiated from scripts to a different origin (domain, protocol, or port). The server must return appropriate Access-Control-Allow-Origin headers to permit cross-origin access.",
