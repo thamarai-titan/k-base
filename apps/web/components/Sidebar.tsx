@@ -5,6 +5,7 @@ import { Folder, Hash, Plus, Layers, Tag as TagIcon, Trash2, Terminal } from "lu
 import type { Category, Tag } from "@/lib/api";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { KLogo } from "@/components/KLogo";
 
 interface SidebarProps {
   categories: Category[];
@@ -34,8 +35,8 @@ export function Sidebar({
       {/* Sidebar Header */}
       <div className="sidebar-header">
         <div className="brand">
-          <div className="brand-icon">
-            <Terminal size={15} />
+          <div className="brand-icon border-0 bg-transparent p-0 overflow-hidden shadow-none">
+            <KLogo size={32} />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
