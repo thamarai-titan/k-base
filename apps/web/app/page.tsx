@@ -7,6 +7,7 @@ import { FilterBar } from "../components/FilterBar";
 import { EntryCard } from "../components/EntryCard";
 import { EntryModal } from "../components/EntryModal";
 import { CategoryModal } from "../components/CategoryModal";
+import { DeleteConfirmDialog } from "../components/DeleteConfirmDialog";
 import { Button } from "@/components/ui/button";
 import { api, type Category, type Entry, type Tag, type EntryType, type CreateEntryPayload } from "../lib/api";
 import { AlertCircle, Plus, BookOpen } from "lucide-react";
@@ -28,6 +29,12 @@ export default function Home() {
   const [isEntryModalOpen, setIsEntryModalOpen] = useState(false);
   const [editingEntry, setEditingEntry] = useState<Entry | null>(null);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<{
+    type: "entry" | "category";
+    id: string;
+    name: string;
+  } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [apiError, setApiError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -106,17 +113,12 @@ export default function Home() {
     await Promise.all([loadMetadata(), loadEntries()]);
   };
 
-  const handleDeleteEntry = async (id: string, title: string) => {
-    if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
-    try {
-      await api.deleteEntry(id);
-      showToast("Entry deleted");
-      await Promise.all([loadMetadata(), loadEntries()]);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        showToast(err.message);
-      }
-    }
+  const handleDeleteEntry = (id: string, title: string) => {
+    setDeleteTarget({
+      type: "entry",
+      id,
+      name: title,
+    });
   };
 
   const handleEditEntry = (entry: Entry) => {
@@ -136,17 +138,34 @@ export default function Home() {
     await loadMetadata();
   };
 
-  const handleDeleteCategory = async (id: string, name: string) => {
-    if (!confirm(`Delete category "${name}" and all its entries?`)) return;
+  const handleDeleteCategory = (id: string, name: string) => {
+    setDeleteTarget({
+      type: "category",
+      id,
+      name,
+    });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteTarget) return;
+    setIsDeleting(true);
     try {
-      await api.deleteCategory(id);
-      showToast(`Category "${name}" deleted`);
-      if (selectedCategory === id) setSelectedCategory("");
+      if (deleteTarget.type === "entry") {
+        await api.deleteEntry(deleteTarget.id);
+        showToast("Entry deleted successfully");
+      } else {
+        await api.deleteCategory(deleteTarget.id);
+        showToast(`Category "${deleteTarget.name}" deleted`);
+        if (selectedCategory === deleteTarget.id) setSelectedCategory("");
+      }
+      setDeleteTarget(null);
       await Promise.all([loadMetadata(), loadEntries()]);
     } catch (err: unknown) {
       if (err instanceof Error) {
         showToast(err.message);
       }
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -275,6 +294,26 @@ export default function Home() {
         isOpen={isCategoryModalOpen}
         onClose={() => setIsCategoryModalOpen(false)}
         onSubmit={handleCreateCategory}
+      />
+
+      {/* Delete Confirmation Alert Dialog */}
+      <DeleteConfirmDialog
+        isOpen={Boolean(deleteTarget)}
+        onClose={() => !isDeleting && setDeleteTarget(null)}
+        onConfirm={handleConfirmDelete}
+        title={
+          deleteTarget?.type === "category"
+            ? "Delete Category"
+            : "Delete Knowledge Entry"
+        }
+        description={
+          deleteTarget?.type === "category"
+            ? "Deleting this category will permanently remove the category and all knowledge entries filed under it. This action cannot be undone."
+            : "Are you sure you want to permanently delete this knowledge entry? This action cannot be undone."
+        }
+        itemName={deleteTarget?.name}
+        confirmText="Delete Permanently"
+        isDeleting={isDeleting}
       />
 
       {/* Global Toast Notification */}
