@@ -10,8 +10,9 @@ import { CategoryModal } from "../components/CategoryModal";
 import { DeleteConfirmDialog } from "../components/DeleteConfirmDialog";
 import { EntryGridSkeleton } from "../components/EntryCardSkeleton";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/sonner";
 import { api, type Category, type Entry, type Tag, type EntryType, type CreateEntryPayload } from "../lib/api";
-import { AlertCircle, Plus, BookOpen } from "lucide-react";
+import { Plus, BookOpen } from "lucide-react";
 
 export default function Home() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -36,17 +37,16 @@ export default function Home() {
     name: string;
   } | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [apiError, setApiError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [, startTransition] = useTransition();
 
-  // Toast notification helper
-  const showToast = useCallback((msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => {
-      setToastMessage((curr) => (curr === msg ? null : curr));
-    }, 3000);
+  // Toast notification helper using Sonner (top-center)
+  const showToast = useCallback((msg: string, type: "success" | "error" = "success") => {
+    if (type === "error") {
+      toast.error(msg);
+    } else {
+      toast.success(msg);
+    }
   }, []);
 
   // Debounce search input
@@ -65,11 +65,8 @@ export default function Home() {
       setTags(tgs);
       const total = cats.reduce((acc, c) => acc + (c._count?.entries || 0), 0);
       setTotalCount(total);
-      setApiError(null);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setApiError(err.message);
-      }
+    } catch {
+      toast.error("Unable to connect to backend server", { id: "backend-error" });
     }
   }, []);
 
@@ -84,11 +81,8 @@ export default function Home() {
         type: selectedType,
       });
       setEntries(data);
-      setApiError(null);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setApiError(err.message);
-      }
+    } catch {
+      toast.error("Failed to load entries from server", { id: "backend-entries-error" });
     } finally {
       setIsLoading(false);
     }
@@ -227,19 +221,6 @@ export default function Home() {
         </div>
 
         <main className="content-area">
-          {apiError && (
-            <div className="mb-4 p-3.5 rounded-md bg-[#1c1810] border border-amber-900/40 text-amber-300 flex items-center gap-2.5 text-xs">
-              <AlertCircle size={16} className="shrink-0 text-amber-400" />
-              <div>
-                <strong className="font-semibold">API Connection Notice:</strong> Ensure your backend is running on{" "}
-                <code className="text-amber-200 bg-black/40 px-1 py-0.5 rounded">http://localhost:5001</code>.
-                <div className="text-[11px] text-amber-400/70 mt-0.5">
-                  Details: {apiError}
-                </div>
-              </div>
-            </div>
-          )}
-
           {isLoading ? (
             <EntryGridSkeleton count={6} />
           ) : entries.length === 0 ? (
@@ -316,15 +297,6 @@ export default function Home() {
         confirmText="Delete Permanently"
         isDeleting={isDeleting}
       />
-
-      {/* Global Toast Notification */}
-      {toastMessage && (
-        <div className="toast-container">
-          <div className="toast">
-            <span>{toastMessage}</span>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
