@@ -8,6 +8,7 @@ import { EntryCard } from "../components/EntryCard";
 import { EntryModal } from "../components/EntryModal";
 import { CategoryModal } from "../components/CategoryModal";
 import { DeleteConfirmDialog } from "../components/DeleteConfirmDialog";
+import { EntryGridSkeleton } from "../components/EntryCardSkeleton";
 import { Button } from "@/components/ui/button";
 import { api, type Category, type Entry, type Tag, type EntryType, type CreateEntryPayload } from "../lib/api";
 import { AlertCircle, Plus, BookOpen } from "lucide-react";
@@ -238,9 +239,7 @@ export default function Home() {
           )}
 
           {isLoading ? (
-            <div className="text-center py-20 text-muted-foreground text-xs font-medium">
-              Loading knowledge entries...
-            </div>
+            <EntryGridSkeleton count={6} />
           ) : entries.length === 0 ? (
             <div className="empty-state">
               <BookOpen size={36} className="text-muted-foreground opacity-50 mb-2" />
