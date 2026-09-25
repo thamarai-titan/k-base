@@ -200,29 +200,31 @@ export default function Home() {
 
       {/* Main Content Area */}
       <div className="main-wrapper">
-        <Topbar
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          onOpenNewEntry={handleOpenNewEntry}
-          onOpenNewCategory={() => setIsCategoryModalOpen(true)}
-          selectedType={selectedType}
-          onSelectType={(t) => startTransition(() => setSelectedType(t))}
-          entries={entries}
-          onNotify={showToast}
-        />
+        <div className="sticky-header">
+          <Topbar
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            onOpenNewEntry={handleOpenNewEntry}
+            onOpenNewCategory={() => setIsCategoryModalOpen(true)}
+            selectedType={selectedType}
+            onSelectType={(t) => startTransition(() => setSelectedType(t))}
+            entries={entries}
+            onNotify={showToast}
+          />
 
-        <FilterBar
-          selectedType={selectedType}
-          onSelectType={(t) => startTransition(() => setSelectedType(t))}
-          selectedCategory={selectedCategory}
-          selectedCategoryName={selectedCategoryName}
-          onClearCategory={() => setSelectedCategory("")}
-          selectedTag={selectedTag}
-          onClearTag={() => setSelectedTag("")}
-          searchQuery={searchQuery}
-          onClearSearch={() => setSearchQuery("")}
-          entriesCount={entries.length}
-        />
+          <FilterBar
+            selectedType={selectedType}
+            onSelectType={(t) => startTransition(() => setSelectedType(t))}
+            selectedCategory={selectedCategory}
+            selectedCategoryName={selectedCategoryName}
+            onClearCategory={() => setSelectedCategory("")}
+            selectedTag={selectedTag}
+            onClearTag={() => setSelectedTag("")}
+            searchQuery={searchQuery}
+            onClearSearch={() => setSearchQuery("")}
+            entriesCount={entries.length}
+          />
+        </div>
 
         <main className="content-area">
           {apiError && (

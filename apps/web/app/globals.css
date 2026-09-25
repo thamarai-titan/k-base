@@ -520,6 +520,13 @@ samp,
   min-width: 0;
 }
 
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 25;
+  background-color: var(--bg-card);
+}
+
 .topbar {
   display: flex;
   align-items: center;
@@ -527,9 +534,6 @@ samp,
   padding: 14px 28px;
   border-bottom: 1px solid hsl(var(--border));
   background: var(--bg-card);
-  position: sticky;
-  top: 0;
-  z-index: 20;
   gap: 20px;
 }
 
@@ -646,7 +650,7 @@ samp,
   align-items: center;
   justify-content: space-between;
   padding: 12px 28px;
-  background: var(--bg-main);
+  background: var(--bg-card);
   border-bottom: 1px solid hsl(var(--border));
   gap: 16px;
   flex-wrap: wrap;
