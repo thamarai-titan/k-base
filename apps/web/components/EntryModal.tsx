@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Terminal, BookOpen, Code, Database } from "lucide-react";
 import type { Category, Entry, EntryType, CreateEntryPayload } from "@/lib/api";
 import {
@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { SearchableSelect } from "@/components/ui/searchable-select";
 
 interface EntryModalProps {
   isOpen: boolean;
@@ -39,6 +40,16 @@ export function EntryModal({
   const [tagsInput, setTagsInput] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const categoryOptions = useMemo(
+    () =>
+      categories.map((c) => ({
+        value: c.id,
+        label: c.name,
+        count: c._count?.entries,
+      })),
+    [categories]
+  );
 
   useEffect(() => {
     if (initialEntry) {
@@ -111,7 +122,7 @@ export function EntryModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto bg-[#0f121a] border-border">
+      <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto bg-card border-border">
         <DialogHeader>
           <div className="flex items-center gap-1.5 text-muted-foreground font-mono text-xs uppercase tracking-wider">
             <Database size={13} />
@@ -137,7 +148,7 @@ export function EntryModal({
             <label className="text-xs font-semibold text-muted-foreground">
               Entry Type
             </label>
-            <div className="grid grid-cols-3 gap-1 bg-[#151824] p-1 rounded-md border border-border">
+            <div className="grid grid-cols-3 gap-1 bg-secondary/60 p-1 rounded-md border border-border">
               <button
                 type="button"
                 onClick={() => setType("COMMAND")}
@@ -188,7 +199,7 @@ export function EntryModal({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              className="bg-[#141722]"
+              className="bg-card"
             />
           </div>
 
@@ -197,19 +208,14 @@ export function EntryModal({
             <label className="text-xs font-semibold text-foreground">
               Category *
             </label>
-            <select
-              className="flex h-8 w-full rounded-md border border-input bg-[#141722] px-3 py-1 text-xs text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            <SearchableSelect
+              options={categoryOptions}
               value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
-              required
-            >
-              {categories.length === 0 && <option value="">No categories available</option>}
-              {categories.map((c) => (
-                <option key={c.id} value={c.id} className="bg-[#0f121a] text-foreground">
-                  {c.name}
-                </option>
-              ))}
-            </select>
+              onChange={(val) => setCategoryId(val)}
+              placeholder="Select a category..."
+              searchPlaceholder="Type to search categories..."
+              emptyMessage="No categories found"
+            />
           </div>
 
           {/* Content */}
@@ -225,7 +231,7 @@ export function EntryModal({
               </span>
             </label>
             <Textarea
-              className={`min-h-[120px] bg-[#141722] leading-relaxed transition-all ${
+              className={`min-h-[120px] bg-card leading-relaxed transition-all ${
                 type === "NOTE"
                   ? "note-reading-surface font-reading text-sm"
                   : "code-visualization-surface font-code text-xs"
@@ -249,7 +255,7 @@ export function EntryModal({
               Description <span className="text-[11px] text-muted-foreground font-normal">(optional)</span>
             </label>
             <Textarea
-              className="min-h-[55px] bg-[#141722] text-xs font-sans"
+              className="min-h-[55px] bg-card text-xs font-sans"
               placeholder="Brief explanation of when and why to use this..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -266,7 +272,7 @@ export function EntryModal({
               placeholder="e.g. docker run -d -p 8080:80 nginx"
               value={example}
               onChange={(e) => setExample(e.target.value)}
-              className="bg-[#141722] font-mono text-xs"
+              className="bg-card font-mono text-xs"
             />
           </div>
 
@@ -280,7 +286,7 @@ export function EntryModal({
               placeholder="docker, cleanup, containers, devops"
               value={tagsInput}
               onChange={(e) => setTagsInput(e.target.value)}
-              className="bg-[#141722] text-xs"
+              className="bg-card text-xs"
             />
           </div>
 
