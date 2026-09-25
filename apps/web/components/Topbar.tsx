@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Search, Plus, FolderPlus, X, Sparkles, Terminal, Code, BookOpen, Copy, Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TypographyControls } from "./TypographyControls";
+import { ThemeToggle } from "./ThemeToggle";
 import { HighlightedText } from "./HighlightedText";
 import type { Entry, EntryType } from "@/lib/api";
 
@@ -196,7 +197,7 @@ export function Topbar({
 
         {/* Live Search & Quick Command Palette Popover */}
         {isFocused && (
-          <div className="absolute left-0 right-0 top-full mt-2 p-2.5 rounded-lg bg-[#0d1017] border border-border/90 shadow-2xl z-40 animate-in fade-in-0 zoom-in-95 duration-150 max-h-[380px] overflow-y-auto">
+          <div className="absolute left-0 right-0 top-full mt-2 p-2.5 rounded-lg bg-popover border border-border shadow-2xl z-40 animate-in fade-in-0 zoom-in-95 duration-150 max-h-[380px] overflow-y-auto">
             {/* Quick Type Filter Bar */}
             <div className="flex items-center justify-between pb-2 mb-2 border-b border-border/70">
               <div className="flex items-center gap-1">
@@ -209,7 +210,7 @@ export function Topbar({
                   className={`text-[11px] px-2 py-0.5 rounded transition-colors ${
                     selectedType === ""
                       ? "bg-foreground text-background font-semibold"
-                      : "text-muted-foreground hover:text-foreground hover:bg-[#181d2a]"
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                   }`}
                 >
                   All
@@ -220,7 +221,7 @@ export function Topbar({
                   className={`text-[11px] px-2 py-0.5 rounded flex items-center gap-1 transition-colors ${
                     selectedType === "COMMAND"
                       ? "bg-foreground text-background font-semibold"
-                      : "text-emerald-400 hover:text-emerald-300 hover:bg-[#181d2a]"
+                      : "text-emerald-500 hover:text-emerald-400 hover:bg-secondary"
                   }`}
                 >
                   <Terminal size={10} />
@@ -232,7 +233,7 @@ export function Topbar({
                   className={`text-[11px] px-2 py-0.5 rounded flex items-center gap-1 transition-colors ${
                     selectedType === "SNIPPET"
                       ? "bg-foreground text-background font-semibold"
-                      : "text-blue-400 hover:text-blue-300 hover:bg-[#181d2a]"
+                      : "text-blue-500 hover:text-blue-400 hover:bg-secondary"
                   }`}
                 >
                   <Code size={10} />
@@ -244,7 +245,7 @@ export function Topbar({
                   className={`text-[11px] px-2 py-0.5 rounded flex items-center gap-1 transition-colors ${
                     selectedType === "NOTE"
                       ? "bg-foreground text-background font-semibold"
-                      : "text-amber-400 hover:text-amber-300 hover:bg-[#181d2a]"
+                      : "text-amber-500 hover:text-amber-400 hover:bg-secondary"
                   }`}
                 >
                   <BookOpen size={10} />
@@ -273,7 +274,7 @@ export function Topbar({
                       <div
                         key={entry.id}
                         onClick={() => handleJumpToEntry(entry.id)}
-                        className="p-2 rounded-md bg-[#111520] hover:bg-[#171d2c] border border-border/60 hover:border-slate-600 transition-all cursor-pointer flex items-center justify-between gap-3 group"
+                        className="p-2 rounded-md bg-secondary/40 hover:bg-secondary border border-border/60 hover:border-border transition-all cursor-pointer flex items-center justify-between gap-3 group"
                       >
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-1.5 mb-1">
@@ -295,7 +296,7 @@ export function Topbar({
                             </span>
                           </div>
 
-                          <div className="text-[11px] font-mono text-slate-300 bg-[#080a0f] p-1.5 rounded border border-border/50 truncate code-visualization-surface">
+                          <div className="text-[11px] font-mono text-slate-200 bg-[var(--surface-code)] p-1.5 rounded border border-border/50 truncate code-visualization-surface">
                             <HighlightedText text={entry.content} query={searchQuery} />
                           </div>
                         </div>
@@ -308,7 +309,7 @@ export function Topbar({
                             className={`h-7 px-2 text-[11px] gap-1 transition-all ${
                               isCopied
                                 ? "text-emerald-400 bg-emerald-950/40"
-                                : "text-muted-foreground hover:text-foreground hover:bg-[#1e2538]"
+                                : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                             }`}
                             title="Copy command"
                           >
@@ -328,14 +329,14 @@ export function Topbar({
               )
             ) : (
               <div className="pt-1">
-                <div className="flex items-center gap-1.5 text-xs text-slate-300 font-medium mb-1.5">
-                  <Sparkles size={12} className="text-amber-400" />
+                <div className="flex items-center gap-1.5 text-xs text-foreground font-medium mb-1.5">
+                  <Sparkles size={12} className="text-amber-500" />
                   <span>Instant Multi-Field Search</span>
                 </div>
                 <div className="text-[11px] text-muted-foreground leading-relaxed">
-                  Type any keyword to search across commands, titles, code snippets, and tags. Try typing <span className="text-emerald-400 font-mono">docker</span> or <span className="text-emerald-400 font-mono">docker cmds</span> to view all Docker commands.
+                  Type any keyword to search across commands, titles, code snippets, and tags. Try typing <span className="text-emerald-500 font-mono">docker</span> or <span className="text-emerald-500 font-mono">docker cmds</span> to view all Docker commands.
                 </div>
-                <div className="mt-2.5 pt-2 border-t border-border/50 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+                <div className="mt-2.5 pt-2 border-t border-border/50 flex items-center justify-between text-[10px] text-muted-foreground font-mono">
                   <span>Press <kbd className="search-kbd text-[9px]">⌘K</kbd> to search</span>
                   <span>Press <kbd className="search-kbd text-[9px]">esc</kbd> to exit</span>
                 </div>
@@ -347,14 +348,15 @@ export function Topbar({
 
       <div className="topbar-actions">
         <TypographyControls />
+        <ThemeToggle />
 
         <Button
           variant="outline"
           onClick={onOpenNewCategory}
           title="Create a new category"
-          className="gap-2 text-xs"
+          className="gap-2 text-xs shrink-0 select-none"
         >
-          <FolderPlus className="h-3.5 w-3.5 text-muted-foreground" />
+          <FolderPlus className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
           <span>New Category</span>
         </Button>
 
@@ -362,9 +364,9 @@ export function Topbar({
           variant="default"
           onClick={onOpenNewEntry}
           title="Add a new command, note or snippet"
-          className="gap-1.5 text-xs font-semibold"
+          className="gap-1.5 text-xs font-semibold shrink-0 select-none"
         >
-          <Plus className="h-3.5 w-3.5" />
+          <Plus className="h-3.5 w-3.5 shrink-0" />
           <span>New Entry</span>
         </Button>
       </div>

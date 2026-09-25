@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,300..800;1,14..32,300..800&family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,300..800;1,14..32,300..800&family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&family=Lexend:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&family=Roboto:ital,wght@0,400;0,500;0,700;1,400&family=Source+Code+Pro:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,61 +6,21 @@
 
 @layer base {
   :root {
-    /* Ultra-Rich Luxury Dark: Deep Obsidian & Crisp Titanium/Frost (No Gradients) */
-    --background: 228 24% 5%;        /* #080a0f */
-    --foreground: 220 20% 97%;       /* #f5f6f8 */
-
-    --card: 228 20% 8%;              /* #10131b - rich solid surface */
-    --card-foreground: 220 20% 97%;
-
-    --popover: 228 20% 7%;           /* #0d1017 */
-    --popover-foreground: 220 20% 97%;
-
-    /* Primary: Crisp, luminous solid white/frost - timeless luxury contrast */
-    --primary: 0 0% 98%;             /* #fafafa */
-    --primary-foreground: 228 24% 6%; /* #090b10 */
-
-    /* Secondary: Refined Charcoal-Steel */
-    --secondary: 228 16% 14%;        /* #1d212c */
-    --secondary-foreground: 220 15% 90%; /* #e1e4ea */
-
-    /* Muted */
-    --muted: 228 15% 10%;            /* #13161f */
-    --muted-foreground: 220 10% 58%; /* #8b92a2 */
-
-    /* Accent: Refined solid slate */
-    --accent: 228 16% 15%;           /* #1e2330 */
-    --accent-foreground: 220 20% 98%;
-
-    /* Destructive: Solid crisp Crimson */
-    --destructive: 0 72% 51%;        /* #dc2626 */
-    --destructive-foreground: 0 0% 100%;
-
-    /* Borders: Crisp, luxury razor borders */
-    --border: 228 16% 15%;           /* #1f2433 */
-    --input: 228 16% 14%;            /* #1d212e */
-    --ring: 220 15% 85%;
-
-    --radius: 0.5rem;
-
-    /* Legacy compatibility variables for layout */
-    --bg-main: #080a0f;
-    --bg-sidebar: #0b0d14;
-    --bg-card: #10131b;
-    --bg-card-hover: #151924;
-    --bg-subtle: #181d2a;
-    --border-subtle: #1e2433;
-    --border-focus: #e2e8f0;
-
-    --text-primary: #f5f6f8;
-    --text-secondary: #9aa1b2;
-    --text-muted: #697184;
-
     /* Base Font Family Definitions */
     --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-jetbrains: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     --font-fira: 'Fira Code', 'JetBrains Mono', monospace;
     --font-jakarta: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-ibm-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-ibm-mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+    --font-roboto: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-roboto-mono: 'Roboto Mono', 'JetBrains Mono', monospace;
+    --font-source-sans: 'Source Sans 3', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-source-code: 'Source Code Pro', 'JetBrains Mono', monospace;
+    --font-manrope: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-lexend: 'Lexend', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-merriweather: 'Merriweather', Georgia, Cambria, 'Times New Roman', Times, serif;
 
     /* Active Font Pairings (Default: Inter for superior reading + JetBrains Mono for code) */
     --font-sans: var(--font-inter);
@@ -82,56 +42,260 @@
     --radius-lg: 12px;
   }
 
-  /* Preset: Inter + JetBrains Mono (Optimal Reading & High-Precision Code) */
-  :root[data-font="inter"],
-  [data-font="inter"] {
-    --font-sans: var(--font-inter);
-    --font-mono: var(--font-jetbrains);
-    --font-reading: var(--font-inter);
-    --font-code: var(--font-jetbrains);
+  :root,
+  .dark,
+  [data-theme="dark"] {
+    /* ilotus.dev Pure Pitch Zinc Dark Theme */
+    --background: 240 10% 3.9%;       /* #09090b - pitch zinc canvas */
+    --foreground: 0 0% 98%;           /* #fafafa - crisp pure white text */
+
+    --card: 240 5.9% 7.5%;            /* #121215 - sleek neutral zinc surface */
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 4.8%;          /* #0c0c0e */
+    --popover-foreground: 0 0% 98%;
+
+    /* Primary: Crisp Luminous White */
+    --primary: 0 0% 98%;              /* #fafafa */
+    --primary-foreground: 240 10% 3.9%; /* #09090b */
+
+    /* Secondary: Refined Zinc Pill */
+    --secondary: 240 3.7% 14%;        /* #222226 */
+    --secondary-foreground: 240 5% 90%; /* #e4e4e7 */
+
+    /* Muted */
+    --muted: 240 3.7% 11%;            /* #18181b */
+    --muted-foreground: 240 5% 64.9%; /* #a1a1aa - zinc-400 */
+
+    /* Accent */
+    --accent: 240 3.7% 16%;           /* #27272a */
+    --accent-foreground: 0 0% 98%;
+
+    /* Destructive */
+    --destructive: 0 72% 51%;         /* #ef4444 */
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders: ilotus.dev refined razor zinc-800 border */
+    --border: 240 3.7% 15.9%;         /* #27272a */
+    --input: 240 3.7% 15.9%;          /* #27272a */
+    --ring: 240 5% 85%;
+
+    --radius: 0.5rem;
+
+    --bg-main: #09090b;
+    --bg-sidebar: #0c0c0f;
+    --bg-card: #121215;
+    --bg-card-hover: #17171c;
+    --bg-subtle: #18181b;
+    --border-subtle: #27272a;
+    --border-focus: #fafafa;
+
+    --text-primary: #fafafa;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+
+    --surface-code: #08080a;
+    --surface-code-header: #121216;
+    --surface-example: #141418;
+    --text-code: #f4f4f5;
+    --text-code-muted: #a1a1aa;
+    --surface-note: #0e0e11;
+    --surface-nav-active: #1c1c21;
+    --surface-search: #121215;
+    --surface-search-focus: #16161a;
   }
 
-  /* Preset: Geist Sans + Geist Mono (Developer Minimalist / Vercel Aesthetic) */
-  :root[data-font="geist"],
-  [data-font="geist"] {
-    --font-sans: var(--font-geist-sans), var(--font-inter);
-    --font-mono: var(--font-geist-mono), var(--font-jetbrains);
-    --font-reading: var(--font-geist-sans), var(--font-inter);
-    --font-code: var(--font-geist-mono), var(--font-jetbrains);
-  }
+  .light,
+  [data-theme="light"] {
+    /* Vercel / Linear Modern Crisp Light Theme (Pure white, subtle neutral zinc, clean developer aesthetic) */
+    --background: 0 0% 100%;          /* #ffffff - pure crisp white */
+    --foreground: 240 10% 3.9%;       /* #09090b - crisp pitch dark */
 
-  /* Preset: Plus Jakarta + Fira Code (Editorial Modern with Rich Coding Ligatures) */
-  :root[data-font="jakarta"],
-  [data-font="jakarta"] {
-    --font-sans: var(--font-jakarta);
-    --font-mono: var(--font-fira);
-    --font-reading: var(--font-jakarta);
-    --font-code: var(--font-fira);
-  }
+    --card: 0 0% 100%;                /* #ffffff */
+    --card-foreground: 240 10% 3.9%;
 
-  /* Reading Mode: Comfortable */
-  :root[data-reading-mode="comfortable"],
-  [data-reading-mode="comfortable"] {
-    --reading-font-size: 0.885rem;
-    --reading-line-height: 1.72;
-    --reading-max-h: 24rem;
-  }
+    --popover: 0 0% 100%;             /* #ffffff */
+    --popover-foreground: 240 10% 3.9%;
 
-  /* Reading Mode: Compact */
-  :root[data-reading-mode="compact"],
-  [data-reading-mode="compact"] {
-    --reading-font-size: 0.8rem;
-    --reading-line-height: 1.5;
-    --reading-max-h: 12rem;
+    --primary: 240 5.9% 10%;          /* #18181b - solid black action */
+    --primary-foreground: 0 0% 98%;   /* #fafafa */
+
+    --secondary: 240 4.8% 95.9%;      /* #f4f4f5 - clean neutral zinc pill */
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;          /* #f4f4f5 */
+    --muted-foreground: 240 3.8% 46.1%; /* #71717a - neutral zinc */
+
+    --accent: 240 4.8% 93%;           /* #ececee */
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;     /* #ef4444 */
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;           /* #e4e4e7 - crisp neutral zinc border */
+    --input: 240 5.9% 90%;            /* #e4e4e7 */
+    --ring: 240 5.9% 10%;             /* #18181b */
+
+    --radius: 0.5rem;
+
+    --bg-main: #ffffff;
+    --bg-sidebar: #fafafa;
+    --bg-card: #ffffff;
+    --bg-card-hover: #fafafa;
+    --bg-subtle: #f4f4f5;
+    --border-subtle: #e4e4e7;
+    --border-focus: #18181b;
+
+    --text-primary: #09090b;
+    --text-secondary: #52525b;
+    --text-muted: #71717a;
+
+    --surface-code: #f6f8fa;          /* clean light code block background (GitHub / Vercel) */
+    --surface-code-header: #eeeff2;   /* subtle refined light header */
+    --surface-example: #f4f4f6;
+    --text-code: #18181b;
+    --text-code-muted: #71717a;
+    --surface-note: #f8f9fb;
+    --surface-nav-active: #f4f4f5;
+    --surface-search: #ffffff;
+    --surface-search-focus: #ffffff;
   }
+}
+
+/* ==========================================================================
+   GLOBAL TYPOGRAPHY PRESETS (Platform-wide immediate dynamic font switching)
+   ========================================================================== */
+
+/* Preset: Inter + JetBrains Mono */
+html[data-font="inter"],
+:root[data-font="inter"],
+[data-font="inter"] {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-reading: 'Inter', sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+}
+
+/* Preset: Geist Sans + Geist Mono */
+html[data-font="geist"],
+:root[data-font="geist"],
+[data-font="geist"] {
+  --font-sans: var(--font-geist-sans), 'Inter', sans-serif;
+  --font-mono: var(--font-geist-mono), 'JetBrains Mono', monospace;
+  --font-reading: var(--font-geist-sans), 'Inter', sans-serif;
+  --font-code: var(--font-geist-mono), 'JetBrains Mono', monospace;
+}
+
+/* Preset: Plus Jakarta + Fira Code */
+html[data-font="jakarta"],
+:root[data-font="jakarta"],
+[data-font="jakarta"] {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Fira Code', 'JetBrains Mono', monospace;
+  --font-reading: 'Plus Jakarta Sans', sans-serif;
+  --font-code: 'Fira Code', monospace;
+}
+
+/* Preset: IBM Plex Sans + IBM Plex Mono */
+html[data-font="ibm-plex"],
+:root[data-font="ibm-plex"],
+[data-font="ibm-plex"] {
+  --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+  --font-reading: 'IBM Plex Sans', sans-serif;
+  --font-code: 'IBM Plex Mono', monospace;
+}
+
+/* Preset: Roboto + Roboto Mono */
+html[data-font="roboto"],
+:root[data-font="roboto"],
+[data-font="roboto"] {
+  --font-sans: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Roboto Mono', 'JetBrains Mono', monospace;
+  --font-reading: 'Roboto', sans-serif;
+  --font-code: 'Roboto Mono', monospace;
+}
+
+/* Preset: Source Sans 3 + Source Code Pro */
+html[data-font="source"],
+:root[data-font="source"],
+[data-font="source"] {
+  --font-sans: 'Source Sans 3', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Source Code Pro', 'JetBrains Mono', monospace;
+  --font-reading: 'Source Sans 3', sans-serif;
+  --font-code: 'Source Code Pro', monospace;
+}
+
+/* Preset: Manrope + JetBrains Mono */
+html[data-font="manrope"],
+:root[data-font="manrope"],
+[data-font="manrope"] {
+  --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-reading: 'Manrope', sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+}
+
+/* Preset: Lexend + JetBrains Mono */
+html[data-font="lexend"],
+:root[data-font="lexend"],
+[data-font="lexend"] {
+  --font-sans: 'Lexend', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-reading: 'Lexend', sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+}
+
+/* Preset: System Native */
+html[data-font="system"],
+:root[data-font="system"],
+[data-font="system"] {
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-reading: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  --font-code: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Preset: Merriweather + JetBrains Mono (Full editorial warm serif transform) */
+html[data-font="editorial"],
+:root[data-font="editorial"],
+[data-font="editorial"] {
+  --font-sans: 'Merriweather', Georgia, Cambria, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-reading: 'Merriweather', Georgia, Cambria, serif;
+  --font-code: 'JetBrains Mono', monospace;
+}
+
+/* Reading Density Presets */
+html[data-reading-mode="comfortable"],
+:root[data-reading-mode="comfortable"] {
+  --reading-font-size: 0.885rem;
+  --reading-line-height: 1.72;
+  --reading-max-h: 24rem;
+}
+
+html[data-reading-mode="compact"],
+:root[data-reading-mode="compact"] {
+  --reading-font-size: 0.8rem;
+  --reading-line-height: 1.5;
+  --reading-max-h: 12rem;
 }
 
 * {
   box-sizing: border-box;
 }
 
-body {
+html,
+body,
+button,
+input,
+optgroup,
+select,
+textarea {
   font-family: var(--font-sans);
+}
+
+body {
   font-feature-settings: var(--font-features-sans);
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
@@ -140,6 +304,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+
+/* Monospace overrides for code & labels */
+code,
+pre,
+kbd,
+samp,
+.font-mono,
+[class*="font-mono"] {
+  font-family: var(--font-mono) !important;
 }
 
 /* Tabular numbers for numbers, counters, and statistics */
@@ -155,7 +329,7 @@ body {
   line-height: var(--reading-line-height, 1.65);
   letter-spacing: 0.005em;
   font-feature-settings: var(--font-features-sans);
-  color: #e2e8f0;
+  color: hsl(var(--foreground));
 }
 
 /* Dedicated Code & Terminal Visualization Surface with Ligatures */
@@ -194,7 +368,7 @@ body {
 /* Sidebar */
 .sidebar {
   width: 270px;
-  background-color: #0b0d14;
+  background-color: var(--bg-sidebar);
   border-right: 1px solid hsl(var(--border));
   display: flex;
   flex-direction: column;
@@ -220,22 +394,22 @@ body {
   width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
-  background: #171b26;
-  border: 1px solid #283044;
+  background: var(--bg-subtle);
+  border: 1px solid hsl(var(--border));
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 0.95rem;
-  color: #f5f6f8;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  color: var(--text-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .brand-title {
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #f5f6f8;
+  color: var(--text-primary);
 }
 
 .brand-badge {
@@ -243,9 +417,9 @@ body {
   font-weight: 600;
   padding: 1px 6px;
   border-radius: 4px;
-  background: #181d2a;
-  color: #9aa1b2;
-  border: 1px solid #242c3e;
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+  border: 1px solid hsl(var(--border));
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-left: 6px;
@@ -310,24 +484,24 @@ body {
   color: hsl(var(--foreground));
 }
 .nav-item.active {
-  background-color: #171b26;
-  color: #f5f6f8;
+  background-color: var(--surface-nav-active);
+  color: var(--text-primary);
   font-weight: 600;
-  border-color: #262c3e;
+  border-color: hsl(var(--border));
 }
 
 .nav-count {
   font-size: 0.72rem;
   font-weight: 500;
-  background: #141722;
+  background: var(--bg-subtle);
   color: hsl(var(--muted-foreground));
   padding: 1px 6px;
   border-radius: 6px;
-  border: 1px solid #1f2536;
+  border: 1px solid hsl(var(--border));
 }
 .nav-item.active .nav-count {
-  background: #1f2538;
-  color: #f5f6f8;
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 /* Tag Cloud */
@@ -352,7 +526,7 @@ body {
   justify-content: space-between;
   padding: 14px 28px;
   border-bottom: 1px solid hsl(var(--border));
-  background: #090c13;
+  background: var(--bg-card);
   position: sticky;
   top: 0;
   z-index: 20;
@@ -376,13 +550,13 @@ body {
 }
 
 .search-box:focus-within .search-icon {
-  color: #f1f5f9;
+  color: var(--text-primary);
 }
 
 .search-input {
   width: 100%;
   padding: 8px 88px 8px 36px;
-  background: #10131b;
+  background: var(--surface-search);
   border: 1px solid hsl(var(--border));
   border-radius: var(--radius-md);
   color: hsl(var(--foreground));
@@ -392,9 +566,9 @@ body {
 }
 
 .search-input:focus {
-  border-color: #475569;
-  background: #121623;
-  box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.18), 0 6px 20px rgba(0, 0, 0, 0.45);
+  border-color: var(--border-focus);
+  background: var(--surface-search-focus);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.18), 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .search-input::placeholder {
@@ -422,18 +596,18 @@ body {
   font-family: var(--font-mono);
   font-weight: 600;
   color: hsl(var(--muted-foreground));
-  background: #161a26;
-  border: 1px solid #232a3c;
+  background: var(--bg-subtle);
+  border: 1px solid hsl(var(--border));
   border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   user-select: none;
   line-height: 1;
   transition: all 0.15s ease;
 }
 
 .search-box:focus-within .search-kbd {
-  border-color: #353f58;
-  color: #cbd5e1;
+  border-color: var(--border-focus);
+  color: var(--text-primary);
 }
 
 .search-clear-btn {
@@ -451,7 +625,7 @@ body {
 }
 
 .search-clear-btn:hover {
-  background: #1f2538;
+  background: var(--bg-subtle);
   color: hsl(var(--foreground));
 }
 
@@ -459,6 +633,11 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
+}
+
+.topbar-actions button {
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
 /* Filter Bar */
@@ -467,7 +646,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 12px 28px;
-  background: #0a0d15;
+  background: var(--bg-main);
   border-bottom: 1px solid hsl(var(--border));
   gap: 16px;
   flex-wrap: wrap;
@@ -493,7 +672,7 @@ body {
   justify-content: center;
   padding: 80px 20px;
   text-align: center;
-  background: #0d1017;
+  background: var(--bg-card);
   border: 1px solid hsl(var(--border));
   border-radius: var(--radius-lg);
   max-width: 540px;
@@ -517,7 +696,7 @@ body {
 
 /* Terminal & Code Blocks */
 .terminal-box {
-  background: #090b10;
+  background: var(--surface-code);
   border: 1px solid hsl(var(--border));
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -529,7 +708,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 6px 12px;
-  background: #11141d;
+  background: var(--surface-code-header);
   border-bottom: 1px solid hsl(var(--border));
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -540,7 +719,7 @@ body {
   padding: 12px;
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  color: #e2e8f0;
+  color: var(--text-primary);
   overflow-x: auto;
   white-space: pre-wrap;
   word-break: break-all;
@@ -550,12 +729,12 @@ body {
 .note-content-box {
   margin-top: 12px;
   padding: 12px;
-  background: #10131c;
+  background: var(--surface-note);
   border: 1px solid hsl(var(--border));
   border-radius: var(--radius-md);
   font-size: 0.85rem;
   line-height: 1.55;
-  color: #cbd5e1;
+  color: var(--text-primary);
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -563,11 +742,11 @@ body {
 .example-box {
   margin-top: 8px;
   padding: 8px 10px;
-  background: #121622;
+  background: var(--bg-subtle);
   border-left: 2px solid #64748b;
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-size: 0.78rem;
-  color: #cbd5e1;
+  color: var(--text-primary);
   font-family: var(--font-mono);
   display: flex;
   flex-direction: column;
@@ -578,7 +757,7 @@ body {
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #94a3b8;
+  color: hsl(var(--muted-foreground));
   font-family: var(--font-sans);
   font-weight: 600;
 }

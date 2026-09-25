@@ -35,7 +35,7 @@ export function HighlightedText({ text, query, className }: HighlightedTextProps
           regex.test(part) ? (
             <mark
               key={i}
-              className="bg-amber-500/20 text-amber-200 px-1 py-0.5 rounded border border-amber-500/35 font-semibold"
+              className="bg-amber-400/25 dark:bg-amber-500/20 text-amber-800 dark:text-amber-200 px-1 py-0.5 rounded border border-amber-500/40 font-semibold"
             >
               {part}
             </mark>

@@ -82,7 +82,7 @@ export function EntryCard({
   };
 
   return (
-    <Card id={`entry-${entry.id}`} className="flex flex-col justify-between border-border bg-[#10131b] hover:border-[#2d354b] transition-all duration-150 group">
+    <Card id={`entry-${entry.id}`} className="flex flex-col justify-between border-border bg-card hover:border-primary/40 transition-all duration-150 group shadow-sm">
       <div>
         <CardHeader className="p-4 pb-2.5">
           <div className="flex items-center justify-between gap-2 mb-2">
@@ -91,7 +91,7 @@ export function EntryCard({
               {entry.category && (
                 <Badge
                   variant="outline"
-                  className="bg-[#141723] text-muted-foreground border-border text-[10px]"
+                  className="bg-secondary text-muted-foreground border-border text-[10px]"
                 >
                   {entry.category.name}
                 </Badge>
@@ -109,7 +109,7 @@ export function EntryCard({
                   <span className="sr-only">Options</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-32 bg-[#0e1119] border-border text-xs">
+              <DropdownMenuContent align="end" className="w-32 bg-popover border-border text-xs">
                 <DropdownMenuItem onClick={() => onEdit(entry)} className="gap-2 cursor-pointer">
                   <Edit2 size={12} className="text-muted-foreground" />
                   <span>Edit</span>
@@ -130,7 +130,7 @@ export function EntryCard({
             </DropdownMenu>
           </div>
 
-          <CardTitle className="text-[14.5px] font-semibold leading-snug tracking-tight text-[#f5f6f8] group-hover:text-white transition-colors">
+          <CardTitle className="text-[14.5px] font-semibold leading-snug tracking-tight text-card-foreground group-hover:text-primary transition-colors">
             <HighlightedText text={entry.title} query={searchQuery} />
           </CardTitle>
 
@@ -143,7 +143,7 @@ export function EntryCard({
 
         <CardContent className="p-4 pt-1 space-y-2.5">
           {entry.type === "NOTE" ? (
-            <div className="relative rounded border border-border/80 bg-[#0c0f18] p-3 text-slate-200">
+            <div className="relative rounded border border-border/80 bg-muted/40 p-3 text-foreground">
               <div
                 className={`note-reading-surface whitespace-pre-wrap break-words transition-all ${
                   !isExpanded && isLongContent ? "line-clamp-6" : ""
@@ -165,18 +165,18 @@ export function EntryCard({
               )}
             </div>
           ) : (
-            <div className="rounded border border-border/80 bg-[#07090e] overflow-hidden shadow-inner">
-              <div className="flex items-center justify-between border-b border-border/70 bg-[#10131c] px-3 py-1.5 text-[11px] font-mono text-muted-foreground">
-                <span className="flex items-center gap-1.5 text-slate-400">
+            <div className="rounded border border-border/80 bg-[var(--surface-code)] overflow-hidden shadow-inner">
+              <div className="flex items-center justify-between border-b border-border/70 bg-[var(--surface-code-header)] px-3 py-1.5 text-[11px] font-mono text-muted-foreground">
+                <span className="flex items-center gap-1.5 text-muted-foreground">
                   {entry.type === "COMMAND" ? (
                     <>
-                      <span className="text-emerald-400 font-bold">$</span>
-                      <span className="text-slate-300 font-medium">bash</span>
+                      <span className="text-emerald-500 font-bold">$</span>
+                      <span className="text-foreground/80 font-medium">bash</span>
                     </>
                   ) : (
                     <>
-                      <span className="text-blue-400 font-bold">&lt;/&gt;</span>
-                      <span className="text-slate-300 font-medium">code</span>
+                      <span className="text-blue-500 font-bold">&lt;/&gt;</span>
+                      <span className="text-foreground/80 font-medium">code</span>
                     </>
                   )}
                 </span>
@@ -185,7 +185,7 @@ export function EntryCard({
                   size="sm"
                   className={`h-5 px-2 text-[11px] gap-1 transition-all ${
                     copied
-                      ? "text-emerald-400 font-medium bg-emerald-950/30"
+                      ? "text-emerald-500 font-medium bg-emerald-500/10"
                       : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                   }`}
                   onClick={handleCopy}
@@ -194,7 +194,7 @@ export function EntryCard({
                   <span>{copied ? "Copied" : "Copy"}</span>
                 </Button>
               </div>
-              <pre className="p-3 text-[12px] text-slate-200 overflow-x-auto whitespace-pre-wrap break-all code-visualization-surface">
+              <pre className="p-3 text-[12px] text-[var(--text-code)] overflow-x-auto whitespace-pre-wrap break-all code-visualization-surface">
                 <code>
                   <HighlightedText text={entry.content} query={searchQuery} />
                 </code>
@@ -203,7 +203,7 @@ export function EntryCard({
           )}
 
           {entry.example && (
-            <div className="rounded border-l-2 border-slate-600 bg-[#111420] p-2 text-xs code-visualization-surface text-slate-300">
+            <div className="rounded border-l-2 border-border bg-[var(--surface-example)] p-2 text-xs code-visualization-surface text-[var(--text-code)]">
               <span className="block text-[10px] font-sans font-semibold uppercase tracking-wider text-muted-foreground mb-0.5">
                 Example Usage
               </span>
@@ -222,7 +222,7 @@ export function EntryCard({
               key={tag.id}
               variant="tag"
               onClick={() => onSelectTag(tag.name)}
-              className="text-[10px] py-0 px-1.5 transition-colors hover:border-[#353d54] hover:text-foreground"
+              className="text-[10px] py-0 px-1.5 transition-colors hover:border-foreground/30 hover:text-foreground"
             >
               #<HighlightedText text={tag.name} query={searchQuery} />
             </Badge>

@@ -35,7 +35,7 @@ export function FilterBar({
     <div className="filter-bar">
       <div className="flex items-center gap-2.5 flex-wrap">
         {/* Segmented Type Control - Clean, Solid & Rich */}
-        <div className="inline-flex items-center rounded-md bg-[#11141d] p-0.5 border border-border">
+        <div className="inline-flex items-center rounded-md bg-secondary/60 p-0.5 border border-border">
           <button
             className={`inline-flex items-center gap-1.5 px-3 py-1 rounded text-xs transition-all ${
               selectedType === ""
@@ -55,7 +55,7 @@ export function FilterBar({
             }`}
             onClick={() => onSelectType("COMMAND")}
           >
-            <Terminal size={12} className={selectedType === "COMMAND" ? "text-background" : "text-emerald-400"} />
+            <Terminal size={12} className={selectedType === "COMMAND" ? "text-background" : "text-emerald-600 dark:text-emerald-400"} />
             Commands
           </button>
           <button
@@ -66,7 +66,7 @@ export function FilterBar({
             }`}
             onClick={() => onSelectType("NOTE")}
           >
-            <BookOpen size={12} className={selectedType === "NOTE" ? "text-background" : "text-amber-400"} />
+            <BookOpen size={12} className={selectedType === "NOTE" ? "text-background" : "text-amber-600 dark:text-amber-400"} />
             Notes
           </button>
           <button
@@ -77,7 +77,7 @@ export function FilterBar({
             }`}
             onClick={() => onSelectType("SNIPPET")}
           >
-            <Code size={12} className={selectedType === "SNIPPET" ? "text-background" : "text-blue-400"} />
+            <Code size={12} className={selectedType === "SNIPPET" ? "text-background" : "text-blue-600 dark:text-blue-400"} />
             Snippets
           </button>
         </div>
@@ -85,7 +85,7 @@ export function FilterBar({
         {selectedCategory && (
           <Badge
             variant="secondary"
-            className="flex items-center gap-1.5 py-1 px-2.5 text-xs font-medium border-border bg-[#141824] text-foreground"
+            className="flex items-center gap-1.5 py-1 px-2.5 text-xs font-medium border-border bg-secondary text-foreground"
           >
             <span className="text-muted-foreground">Category:</span>
             <span>{selectedCategoryName || selectedCategory}</span>
@@ -104,7 +104,7 @@ export function FilterBar({
         {selectedTag && (
           <Badge
             variant="secondary"
-            className="flex items-center gap-1.5 py-1 px-2.5 text-xs font-medium border-border bg-[#141824] text-foreground font-mono"
+            className="flex items-center gap-1.5 py-1 px-2.5 text-xs font-medium border-border bg-secondary text-foreground font-mono"
           >
             <span className="text-muted-foreground">Tag:</span>
             <span>#{selectedTag}</span>
@@ -123,7 +123,7 @@ export function FilterBar({
         {searchQuery && (
           <Badge
             variant="secondary"
-            className="flex items-center gap-1.5 py-1 px-2.5 text-xs font-medium border-border bg-[#141824] text-foreground"
+            className="flex items-center gap-1.5 py-1 px-2.5 text-xs font-medium border-border bg-secondary text-foreground"
           >
             <span className="text-muted-foreground">Search:</span>
             <span>&quot;{searchQuery}&quot;</span>

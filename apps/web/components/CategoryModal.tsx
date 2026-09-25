@@ -63,7 +63,7 @@ export function CategoryModal({ isOpen, onClose, onSubmit }: CategoryModalProps)
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-md bg-[#0f121a] border-border">
+      <DialogContent className="max-w-md bg-card border-border">
         <DialogHeader>
           <div className="flex items-center gap-1.5 text-muted-foreground font-mono text-xs uppercase tracking-wider">
             <FolderPlus size={13} />
@@ -95,7 +95,7 @@ export function CategoryModal({ isOpen, onClose, onSubmit }: CategoryModalProps)
               onChange={(e) => handleNameChange(e.target.value)}
               required
               autoFocus
-              className="bg-[#141722]"
+              className="bg-card"
             />
           </div>
 
@@ -108,7 +108,7 @@ export function CategoryModal({ isOpen, onClose, onSubmit }: CategoryModalProps)
               placeholder="e.g. kubernetes, aws, postgresql"
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
-              className="bg-[#141722] font-mono text-xs"
+              className="bg-card font-mono text-xs"
             />
             <p className="text-[11px] text-muted-foreground">
               Auto-generated from name if left untouched
