@@ -52,7 +52,25 @@ export interface UpdateEntryPayload {
   tags?: string[];
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+function getApiBaseUrl(): string {
+  // If explicitly configured via NEXT_PUBLIC_API_URL, sanitize and use it
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, "");
+  }
+  // When running in the browser:
+  if (typeof window !== "undefined") {
+    // Standalone local dev without reverse proxy
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+      return "http://localhost:5001/api";
+    }
+    // In production behind Nginx (e.g. kbase.ilotus.dev), route via same-origin /api
+    return "/api";
+  }
+  // Server-side fallback
+  return "http://127.0.0.1:5001/api";
+}
+
+const API_BASE = getApiBaseUrl();
 
 async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, {

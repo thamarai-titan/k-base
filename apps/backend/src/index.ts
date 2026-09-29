@@ -23,12 +23,20 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
-// Health Check
-app.get("/api/health", (_req: Request, res: Response) => {
+// Health Check & Root Ping
+app.get(["/health", "/api/health"], (_req: Request, res: Response) => {
   res.json({
     status: "ok",
     timestamp: new Date().toISOString(),
     service: "k-base-api",
+  });
+});
+
+app.get(["/", "/api"], (_req: Request, res: Response) => {
+  res.json({
+    name: "k-base API",
+    status: "running",
+    health: "/api/health",
   });
 });
 
